@@ -7,7 +7,7 @@ const myArray = [1, 2, 3, 4, 4, 5, 5, 6, 7, 8, 9];
 
 console.log([...new Set(myArray)]);
 
-// using .filter
+// using .filter itterator
 
 const myArray = [1, 2, 3, 4, 4, 5, 5, 6, 7, 8, 9];
 
