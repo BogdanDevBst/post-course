@@ -14,10 +14,3 @@ for (i = 0; i < numbers.length; i++) {
 
 console.log(maxNum);
 console.log(minNum);
-
-
-// const smallestNumber = Math.min(...numbers);
-// const largestNumber = Math.max(...numbers);
-
-// console.log(smallestNumber);
-// console.log(largestNumber);

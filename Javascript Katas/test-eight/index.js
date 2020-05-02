@@ -2,6 +2,8 @@
 
 const findDuplicates = (text) => {
     const stringArr = text.split("");
+    console.log(stringArr);
+    
     const uniqueKeyStore = new Map();
     const output = [];
 

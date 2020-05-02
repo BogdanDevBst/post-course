@@ -22,5 +22,5 @@ const findSumPair = (number, matchNumber) => {
     return pairMatch.map((element) => [matchNumber - element, element]); // maps over the array and puts it into his format [ [ 2, 2 ], [ 3, 1 ] ]
   };
 
-  console.log(findSumPair([1, 1, 2, 2, 3, 3, 5, 6, 7, 7], 9));
+  console.log(findSumPair([1, 2, 3, 3, 3, 4, 4, 5, 6, 7], 9));
   
