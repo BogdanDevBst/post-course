@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fear of the Wasp!</title>
+</head>
+<body>
+    <section id="waspContainer">
+        <div id="mother-wasp" class="alien-wasp"></div>
+        <div id="defence-wasps" class="flex-row alien-wasp"></div>
+        <div id="attack-wasps" class="flex-row alien-wasp"></div>
+    </section>
+    <section id="buttons">
+        <h2 id="start" onclick="startResetGame()">Start</h2>
+        <h2 id="fire" onclick="attackShip()">Fire!</h2>
+    </section>
+    <style type="text/css">
+        * {
+          padding: 0;
+        }
+  
+        h2 {
+          padding: 5px;
+          margin: 0 40px;
+          border: solid 2px grey;
+          border-radius: 50px;
+          cursor: crosshair;
+        }
+  
+        body {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+        }
+  
+        #waspContainer {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          align-items: center;
+          height: 85vh;
+          background-image: url("./pics/background.png");
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: contain;
+        }
+  
+        #buttons {
+          display: flex;
+          justify-content: center;
+          padding-top: 30px;
+        }
+  
+        p {
+          background-size: contain;
+          background-repeat: no-repeat;
+          background-position: center top;
+          display: flex;
+          align-items: flex-end;
+          justify-content: center;
+          flex-wrap: nowrap;
+          margin: 50 15px;
+          font-size: 16px;
+        }
+  
+        #mother-wasp p {
+          width: 10vw;
+          height: 15vw;
+          background-image: url(".");
+          border: solid black 3px;
+        }
+  
+        #defence-wasps p {
+          width: 10vw;
+          height: 7vw;
+          background-image: url("./pics/defender.png");
+          border: solid black 3px;
+        }
+  
+        #attack-wasps p {
+          width: 8vw;
+          height: 11vw;
+          background-image: url("./pics/attack-ship.png");
+          border: solid black 3px;
+        }
+  
+        .flex-row {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-around;
+          padding: 5px;
+        }
+      </style>
+    <script async defer>
+        class Wasp {
+          constructor(name, hitPoints, cssID, takesDamage) {
+            this.name = name;
+            this.hitPoints = hitPoints;
+            this.cssID = cssID;
+            this.takesDamage = takesDamage;
+          }
+  
+          printWasp() {
+            const showWasp = `<p id="${this.cssID}">HP: ${this.hitPoints}</p>`;
+            document.getElementById(this.cssID).innerHTML += showWasp;
+          }
+  
+          takeHit() {
+            this.hitPoints = this.hitPoints - this.takesDamage;
+          }
+        }
+  
+        class MotherWasp extends Wasp {
+          constructor(name, hitPoints, cssID, takesDamage) {
+            super(name, hitPoints, cssID, takesDamage);
+          }
+        }
+  
+        class DefenceWasp extends Wasp {
+          constructor(name, hitPoints, cssID, takesDamage) {
+            super(name, hitPoints, cssID, takesDamage);
+          }
+        }
+  
+        class AttackWasp extends Wasp {
+          constructor(name, hitPoints, cssID, takesDamage) {
+            super(name, hitPoints, cssID, takesDamage);
+          }
+        }
+  
+        let allWasps = [];
+  
+        const createWasps = () => {
+          allShips[0] = new MotherWasp("Mother Wasp", 80, "mother-wasp", 7);
+          for (let index = 1; index < 6; index++) {
+            allWasps[index] = new DefenceWasp(
+              "Defence Wasp",
+              68,
+              "defence-wasps",
+              10
+            );
+          }
+          for (let index = 6; index < 14; index++) {
+            allWasps[index] = new AttackWasp(
+              "Attack Wasp",
+              60,
+              "attack-wasps",
+              12
+            );
+          }
+          return allWasps;
+        };
+  
+        const attackWasp = () => {
+          const randomWaspIndex = Math.floor(Math.random() * allWasps.length);
+          allWasps[randomWaspIndex].takeHit();
+          if (allWasps[0].hitPoints <= 0) {
+            allWasps = [];
+          }
+          allWasps = allWasps.filter((wasp) => wasp.hitPoints > 0);
+          printWasps();
+        };
+  
+        const printWasps = () => {
+          document.getElementById("mother-wasp").innerHTML = "";
+          document.getElementById("attack-wasps").innerHTML = "";
+          document.getElementById("defence-wasps").innerHTML = "";
+          allWasps.forEach((wasp) => wasp.printShip());
+        };
+  
+        const startResetGame = () => {
+          createWasps();
+          printWasps();
+        };
+    </script>
+</body>
+</html>
