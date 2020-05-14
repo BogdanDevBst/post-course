@@ -1,49 +1,39 @@
-class List {
-    
-    constructor(name, height, age, eyeColor, occupation) {
-        this.name = name;
-        this.height = height;
-        this.age = age;
-        this.eyeColor = eyeColor;
-        this.occupation = occupation;
-    }
+let annualtravel = document.getElementById("annualtravel");
+let buildcont = document.getElementById("buildcont");
+let car = document.getElementById("car");
+let combgap = document.getElementById("combgap");
+let singletravel = document.getElementById("singletravel");
+let smart = document.getElementById("smart");
 
-    getOlder() {
-        this.age++
-    }
+const getProducts = () => {
+  fetch(
+    `https://cors-anywhere.herokuapp.com/https://www.itccompliance.co.uk/recruitment-webservice/api/list`
+  )
+    .then((result) => result.json())
+    .then((result) => {
+      return (
+        annualtravel.innerHTML = result.products.annualtravel + getInfo(annualtravel),
+        buildcont.innerHTML = result.products.buildcont + getInfo(buildcont),
+        car.innerHTML = result.products.car + getInfo(car),
+        combgap.innerHTML = result.products.combgap + getInfo(combgap),
+        singletravel.innerHTML = result.products.singletravel + getInfo(singletravel),
+        smart.innerHTML = result.products.smart + getInfo(smart)
+      );
+    })
+    .catch((err) => {
+      return console.log(err), getProducts();
+    });
+};
 
-    eat() {
-        this.height++
-    }
-
-    die() {
-        this.isAlive = false
-    }
-
-    greet() {
-        return "Hello " + this.name + "! ";
-        
-    }
-}
-
-const peter = new Person("Peter", 180, 34, "Brown", "Elephant watcher");
-const tasha = new Person("Tasha", 160, 22, "Brown", "Developer");
-const mrDrJetski = new Person("Mr Dr", 260, 330, "Prismatic", "Jet ski owner");
-const bogdan = new Person("Bogdan", 170, 29, "Brown", "Brave guy");
-
-const people = [peter, tasha, mrDrJetski, bogdan];
-
-
-const createUser = () => {
-    document.getElementById("greeting-list").innerHTML = "";
-    const name = document.getElementById("name").value;
-    const height = document.getElementById("height").value;
-    const weight = document.getElementById("weight").value;
-    const eyeColor = document.getElementById("eye-color").value;
-    const occupation = document.getElementById("occupation").value;
-    const user = new Person(name, height, weight, eyeColor, occupation);
-    
-    for(const i in user) {
-        document.getElementById("greeting-list").innerHTML += `<p> ${(i + ": " + user[i])} </p>`
-    }
-}
+const getInfo = id => {
+      fetch(
+        `https://cors-anywhere.herokuapp.com/https://www.itccompliance.co.uk/recruitment-webservice/api/info?id=${id}`
+      )
+        .then((result) => result.json())
+        .then((result) => {
+          return console.log(result), result.id.name, result.id.description, result.id.type, result.id.suppliers;
+        })
+        .catch((err) => {
+          return console.log(err);
+        });
+    }; 
