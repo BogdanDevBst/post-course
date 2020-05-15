@@ -1,39 +1,91 @@
-let annualtravel = document.getElementById("annualtravel");
-let buildcont = document.getElementById("buildcont");
-let car = document.getElementById("car");
-let combgap = document.getElementById("combgap");
-let singletravel = document.getElementById("singletravel");
-let smart = document.getElementById("smart");
+const mockDataList = {
+  products: {
+    combgap: "Combined GAP",
+    smart: "SMART",
+    annualtravel: "Annual Multi-Trip Travel Insurance",
+    singletravel: "Single-Trip Travel Insurance",
+    buildcont: "Buildings & Contents Insurance",
+    income: "Income Protection",
+    car: "Car Insurance",
+  },
+};
 
-const getProducts = () => {
+const mockDataProduct = {
+  singletravel: {
+    name: "Single-Trip Travel Insurance",
+    description: "Worldwide travel insurance, single-trip",
+    type: "travel",
+    suppliers: ["Insuria Travel", "Happy Camper UK Ltd"],
+  },
+};
+
+async function fetchList() {
   fetch(
-    `https://cors-anywhere.herokuapp.com/https://www.itccompliance.co.uk/recruitment-webservice/api/list`
+    "https://cors-anywhere.herokuapp.com/https://www.itccompliance.co.uk/recruitment-webservice/api/list"
   )
     .then((result) => result.json())
     .then((result) => {
-      return (
-        annualtravel.innerHTML = result.products.annualtravel + getInfo(annualtravel),
-        buildcont.innerHTML = result.products.buildcont + getInfo(buildcont),
-        car.innerHTML = result.products.car + getInfo(car),
-        combgap.innerHTML = result.products.combgap + getInfo(combgap),
-        singletravel.innerHTML = result.products.singletravel + getInfo(singletravel),
-        smart.innerHTML = result.products.smart + getInfo(smart)
+      const objArray = displayProducts(result.products);
+      document.getElementById("target").innerHTML = cardCreator(objArray).join(
+        ""
       );
     })
-    .catch((err) => {
-      return console.log(err), getProducts();
-    });
+    .catch((error) => console.log(error));
+}
+
+const displayProducts = (productObj) => Object.entries(productObj);
+
+const cardCreator = (productArray) =>
+  productArray.map(
+    (element) =>
+      `<div class="general-card"><p onclick='fetchById("${element[0]}")'>${element[1]}</p></div>`
+  );
+
+async function fetchById(id) {
+  const query = `/info?id=${id}`;
+  fetch(
+    `https://cors-anywhere.herokuapp.com/https://www.itccompliance.co.uk/recruitment-webservice/api${query}`
+  )
+    .then((result) => result.json())
+    .then((result) => {
+      loadProductModal(mockDataProduct);
+    })
+    .catch((error) => console.log(error));
+}
+
+const loadProductModal = (obj) => {
+  document.getElementById(
+    "modal"
+  ).innerHTML = `<section class="modal" onclick="clearProductModal()">
+<div>
+  <h3>${obj.name}</h3>
+  <p>${obj.description}</p>
+  <p>${obj.suppliers}</p>
+</div>
+<div id='side'>
+  <p>${obj.type}</p>
+</div>
+</section>`;
 };
 
-const getInfo = id => {
-      fetch(
-        `https://cors-anywhere.herokuapp.com/https://www.itccompliance.co.uk/recruitment-webservice/api/info?id=${id}`
-      )
-        .then((result) => result.json())
-        .then((result) => {
-          return console.log(result), result.id.name, result.id.description, result.id.type, result.id.suppliers;
-        })
-        .catch((err) => {
-          return console.log(err);
-        });
-    }; 
+const clearProductModal = () =>
+  (document.getElementById("modal").innerHTML = null);
+
+// MOCK DATA
+
+const mockFetchById = () => loadProductModal(mockDataProduct.singletravel);
+
+const mockCardCreator = (productArray) =>
+  productArray.map(
+    (element) =>
+      `<div class="general-card" onclick='mockFetchById()'><p>${element[1]}</p></div>`
+  );
+
+const loadMockData = () => {
+  const objArray = displayProducts(mockDataList.products);
+  document.getElementById("target").innerHTML = mockCardCreator(objArray).join(
+    ""
+  );
+};
+
+loadMockData();
