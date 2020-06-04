@@ -1,14 +1,11 @@
 // 11. How do you check if a given string is a palindrome?
 
+const isPalindrome = (str) => {
+  str = str.toLowerCase(); // turn the string to lowercase
 
-const isPalindrome = myString => {
-    myString = myString.replace(/\W/g, '').toLowerCase();
+  return str === str.split("").reverse().join(""); // reverse input string and return the result of the // comparisong
+};
 
-    return myString === myString.split('').reverse().join('');
-}   
-
-console.log(isPalindrome('I did, did I?'));
-console.log(isPalindrome('Car'));
-
-
-
+console.log(isPalindrome("I did, did I?"));
+console.log(isPalindrome("Car"));
+console.log(isPalindrome("bob"));

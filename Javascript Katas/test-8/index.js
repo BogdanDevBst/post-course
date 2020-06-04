@@ -1,21 +1,21 @@
 // 08. How do you print duplicate characters from a string?
 
 const findDuplicates = (text) => {
-    const stringArr = text.split("");
-    console.log(stringArr);
-    
-    const uniqueKeyStore = new Map();
-    const output = [];
+  const stringArr = text.split("");
+  console.log(stringArr);
 
-    stringArr.forEach((character) => {
-        if (uniqueKeyStore.get(character) && !output.includes(character)) {
-            output.push(character);
-        } else {
-            uniqueKeyStore.set(character, character);
-        }
-    });
+  const uniqueKeyStore = new Map();
+  const output = [];
 
-    return output;
+  stringArr.forEach((character) => {
+    if (uniqueKeyStore.get(character) && !output.includes(character)) {
+      output.push(character);
+    } else {
+      uniqueKeyStore.set(character, character);
+    }
+  });
+
+  return output;
 };
 
-console.log(findDuplicates('abbacpatiandreiabogdanc'));
+console.log(findDuplicates("abbacpatiandreiabogdanc"));
